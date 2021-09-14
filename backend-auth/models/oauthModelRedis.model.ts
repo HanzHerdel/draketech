@@ -13,8 +13,8 @@ import jwt from "jsonwebtoken";
  ************************************************************************/
 
 const seconds = 60;
-const minutesAccessToken = 10;
-const minutesRefreshToken = 1;
+const minutesAccessToken = 1;
+//todo not impelented const minutesRefreshToken = 1; 
 const AUTH_SECRET = process.env.AUTH_SECRET ?? "secretKey";
 /************************************************************************
  * SERVICES

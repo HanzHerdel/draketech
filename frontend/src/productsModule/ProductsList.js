@@ -27,7 +27,7 @@ function ProductList({ posts = [], history, ...props }) {
 
   return (
     <Fragment>
-      <Paper elevation={2} style={{ margin: 24, backGround: "aliceblue" }}>
+      <Paper elevation={2} style={{ margin: 24, background: "aliceblue" }}>
         <CardHeader title={"Products"} />
         <Grid
           container

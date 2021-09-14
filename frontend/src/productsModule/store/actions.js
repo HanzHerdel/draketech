@@ -1,3 +1,4 @@
+import { logout } from "../../authModule/store/actions.js";
 import { showMessage } from "../../components/messages/store/actions.js";
 import {
   postAxios,
@@ -12,11 +13,11 @@ export const CREATE_PRODUCT = "[PRODUCTS] CREATE_PRODUCT";
 export const UPDATE_PRODUCT = "[PRODUCTS] UPDATE_PRODUCT";
 export const DELETE_PRODUCT = "[PRODUCTS] DELETE_PRODUCT";
 
-export function getProducts(form) {
+export function getProducts() {
   return async (dispatch, store) => {
     try {
       const urlPost = "http://localhost:5000/products";
-      let res = await getAxios(urlPost, form, getAuthHeader(store));
+      let res = await getAxios(urlPost, getAuthHeader(store));
       if (res.data.valid) {
         dispatch({ type: GET_PRODUCTS, payload: res.data.data || [] });
       }
@@ -40,7 +41,10 @@ export function postProduct(form) {
       }
       return res.data;
     } catch (error) {
-      console.log("error: ", error);
+      if (error.response?.status) {
+        dispatch(showMessage(error.response.data));
+        dispatch(logout());
+      }
       return { valid: false };
     }
   };
@@ -55,8 +59,10 @@ export function patchProduct(form, id) {
         dispatch(showMessage("Product Edited"));
       }
     } catch (error) {
-      console.log("error: ", error);
-      dispatch(showMessage("Error on put"));
+      if (error.response?.status) {
+        dispatch(showMessage(error.response.data));
+        dispatch(logout());
+      }
       return { valid: false };
     }
   };
@@ -70,6 +76,10 @@ export function deleteProduct(id) {
       return dispatch({ type: DELETE_PRODUCT, payload: id });
     } catch (error) {
       console.log("error: ", error);
+      if (error.response?.status) {
+        dispatch(showMessage(error.response.data));
+        dispatch(logout());
+      }
       return { valid: false };
     }
   };
