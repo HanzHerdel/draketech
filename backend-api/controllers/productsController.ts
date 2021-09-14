@@ -1,5 +1,4 @@
 import ProductModel from "../models/Product.model.js";
-import asyncHandler from "express-async-handler";
 import express from "express";
 const getProducts = async (
   request: express.Request,

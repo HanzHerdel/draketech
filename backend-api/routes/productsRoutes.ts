@@ -4,13 +4,15 @@ import {
   updateByID,
   deleteByID,
 } from "../controllers/productsController.js";
-import {Router} from "express";
+import  express  from "express";
+import { validateToken } from "../utils/validationToken.js";
 
-const router:Router = Router();
+const router: express.Router = express.Router();
 
-router.route("/").post(createProduct);
 router.route("/").get(getProducts);
-router.route("/:id").patch(updateByID);
-router.route("/:id").delete(deleteByID);
+/**Protected routes */
+router.route("/").post(validateToken, createProduct);
+router.route("/:id").patch(validateToken, updateByID);
+router.route("/:id").delete(validateToken, deleteByID);
 
 export default router;
