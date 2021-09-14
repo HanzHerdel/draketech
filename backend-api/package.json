@@ -1,0 +1,32 @@
+{
+  "name": "draketech-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "ts:node": "ts-node index.ts",
+    "start": "node ./dist",
+    "build": "rimraf dist && tsc",
+    "dev": "nodemon"
+  },
+  "author": "FHHL (fer@quetzaltech.net)",
+  "license": "MIT",
+  "dependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/express-oauth-server": "^2.0.4",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^16.9.1",
+    "ts-node": "^10.2.1",
+    "rimraf": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "mongoose": "^5.12.13",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.4.3"
+  }
+}

@@ -1,45 +1,67 @@
 version: '3.7'
 
 services:
-  backend:
+  backend-api:
     build:
-      context: .
+      context: ./backend-api
       dockerfile: Dockerfile
-    image: draketech-engine-backend-products
-    container_name: draketech-engine-backend-products
-    command: /usr/src/app/node_modules/.bin/nodemon server.js
+    image: api
+    container_name: api
+    command: /usr/src/app/node_modules/.bin/nodemon -L index.js
     volumes:
-      - ./:/usr/src/app
+      - ./backend-api:/usr/src/app
       - /usr/src/app/node_modules
-    ports:
-      - "5000:5000"
     depends_on:
       - mongo
+    ports:
+      - "5000:5000"
     env_file: .env.docker
     environment:
       - NODE_ENV=development      
       - CHOKIDAR_USEPOLLING= "true"
     networks:
       - app-network
+
+  back-auth:
+    build:
+      context: ./backend-auth
+      dockerfile: Dockerfile
+    image: auth
+    container_name: auth
+    command: npm run dev
+    volumes:
+      - ./backend-auth:/usr/src/app/
+      - /usr/src/app/node_modules
+    depends_on: 
+      - redis
+    ports:
+      - "4000:4000"
+    env_file: .env.docker
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING= "true"
+    networks:
+      - app-network    
+
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: draketech-engine-frontend
-    container_name: draketech-engine-frontend
+    image: frontend
+    container_name: frontend
     command: npm start
     environment:
-      - REACT_HTTP_PROXY=http://backend:5000
+      - NODE_ENV=development
       - CHOKIDAR_USEPOLLING= "true"
     volumes:
       - ./frontend/:/usr/src/app
-      - /usr/src/app/node_modules
     depends_on:
-      - backend
+      - backend-api
     ports:
       - "3000:3000"
     networks:
       - app-network
+      
   mongo:
     image: mongo
     container_name: draketech-engine-mongodb
@@ -50,10 +72,9 @@ services:
     networks:
       - app-network
   redis:
-    image: redis
+    image: redis:6.2.5-alpine
     container_name: draketech-engine-redis
-    volumes:
-      - data-volume:/data/oauth
+
     ports:
       - "6379:6379"
     networks:
@@ -66,5 +87,3 @@ networks:
 volumes:
     data-volume:
     node_modules:
-    web-root:
-      driver: local
