@@ -8,6 +8,8 @@ To run both servers (Express.js) and client (React.js) simply clone this repo an
 
 `docker-compose up --build`
 
+*Note: tokens only last 1 minute, refresh token not implemented yet*
+
 once the images be downloaded and the containers mounted the client side runs over http://localhost:3000, the products microservice on http://localhost:5000 and the auth microservice http://localhost:4000
 
 ## Arquitecture Diagram
